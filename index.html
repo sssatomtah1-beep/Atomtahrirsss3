@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اتم تحریر</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f4f6fb;color:#172033}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
+header{position:sticky;top:0;z-index:10;background:#fff;box-shadow:0 2px 15px #0001}
+.nav{max-width:1100px;margin:auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-size:21px;font-weight:800}.logo span{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#5a58ee;color:#fff;margin-left:7px}
+.btn{padding:10px 14px;border-radius:11px;background:#eef0ff;color:#4145b7;font-weight:bold}.primary{background:#5757ed;color:#fff}.danger{background:#ffe9e9;color:#c62828}.warning{background:#fff1ce;color:#986600}
+.hero{max-width:1100px;margin:22px auto;padding:32px 22px;border-radius:25px;background:linear-gradient(135deg,#5159ee,#874de7);color:#fff}
+.hero h1{margin:0 0 10px;font-size:34px}.hero p{line-height:2}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:9px 12px;border-radius:11px;background:#ffffff22}
+.container{max-width:1100px;margin:auto;padding:0 18px 35px}
+.search{background:#fff;padding:14px;border-radius:18px;box-shadow:0 5px 18px #0000000b;position:relative}.searchrow{display:flex;gap:8px}.search input{flex:1;padding:12px;border:1px solid #ddd;border-radius:11px;outline:0}
+.suggest{display:none;position:absolute;left:14px;right:14px;top:67px;background:#fff;border:1px solid #ddd;border-radius:12px;overflow:hidden;z-index:5}.suggest div{padding:11px;cursor:pointer}.suggest div:hover{background:#f0f1ff}
+.cats{display:flex;gap:8px;overflow:auto;padding:14px 0}.cat{white-space:nowrap;background:#fff;padding:9px 14px;border-radius:11px;border:1px solid #ddd}.cat.active{background:#5757ed;color:#fff}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 5px 18px #0000000b}.card img{width:100%;height:190px;object-fit:cover}.info{padding:14px}.name{font-weight:bold;margin:8px 0}.price{font-weight:bold;color:#4c50d9}.stock{font-size:12px;color:#777;margin-top:6px}
+.modal,.cart{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:center;justify-content:center;padding:15px}.box{background:#fff;width:min(680px,100%);max-height:90vh;overflow:auto;border-radius:22px;padding:20px}.head{display:flex;justify-content:space-between;align-items:center}.close{width:36px;height:36px;border-radius:50%;background:#eee}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:6px 0}.field.full{grid-column:1/-1}.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px}.field textarea{min-height:80px}
+.item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}.item img{width:55px;height:55px;object-fit:cover;border-radius:10px}.item .grow{flex:1}.qty{display:flex;gap:6px;align-items:center}.qty button{width:28px;height:28px;border-radius:7px;background:#eee}
+footer{background:#171c2b;color:#fff;text-align:center;padding:30px 15px}.credit{border-top:1px solid #ffffff20;margin-top:18px;padding-top:15px;color:#c7cada;font-size:13px}
+.toast{position:fixed;bottom:20px;right:20px;background:#172033;color:#fff;padding:12px 17px;border-radius:12px;transform:translateY(100px);opacity:0;transition:.25s;z-index:99}.toast.show{transform:none;opacity:1}
+.admin{display:none;position:fixed;inset:0;z-index:40;background:#f4f6fb;overflow:auto}.adminhead{background:#171c2b;color:#fff;padding:15px;display:flex;justify-content:space-between}.adminmain{max-width:1100px;margin:auto;padding:18px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:14px}.tab{padding:10px 13px;border-radius:10px;background:#fff}.tab.active{background:#5757ed;color:#fff}.section{display:none;background:#fff;padding:18px;border-radius:18px}.section.active{display:block}.order,.adminproduct{border:1px solid #ddd;border-radius:14px;padding:13px;margin:10px 0}.adminproduct{display:flex;gap:10px;align-items:center}.adminproduct img{width:60px;height:60px;object-fit:cover;border-radius:10px}.grow{flex:1}
+@media(max-width:800px){.products{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.hero{margin:12px}.hero h1{font-size:27px}.products{gap:10px}.card img{height:150px}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.nav .btn{padding:8px 9px;font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+<div class="logo"><span>✏️</span>اتم تحریر</div>
+<div><button class="btn" onclick="tracking()">🔎 پیگیری</button> <button class="btn primary" onclick="openCart()">🛒 سبد (<b id="count">0</b>)</button> <button class="btn" onclick="login()">⚙️ مدیریت</button></div>
+</div></header>
+
+<section class="hero"><div class="container" style="padding:0">
+<h1>اتم تحریر</h1><p>فروشگاه لوازم‌التحریر شاهین‌شهر</p>
+<div class="chips"><div class="chip">📍 شاهین‌شهر، پایانه‌ی اتوبوسرانی</div><div class="chip">📞 <span id="phoneHero">09138375663</span></div></div>
+</div></section>
+
+<main class="container">
+<div class="search"><div class="searchrow">
+<input id="q" placeholder="جست‌وجوی محصول..." oninput="render()">
+<button class="btn" onclick="clearSearch()">پاک کردن</button><button class="btn primary" onclick="render()">جستجو</button>
+</div><div id="suggest" class="suggest"></div></div>
+<div id="cats" class="cats"></div><div id="products" class="products"></div>
+</main>
+
+<footer>
+<div>اتم تحریر | 📍 شاهین‌شهر، پایانه‌ی اتوبوسرانی</div>
+<div style="margin-top:8px">📞 <span id="phoneFooter">09138375663</span></div>
+<button class="btn primary" style="margin-top:15px" onclick="tracking()">🔎 پیگیری سفارش</button>
+<div class="credit">ساخته شده توسط تیم صنعت سیاره سبز <b>ABN</b></div>
+</footer>
+
+<div id="cart" class="cart"><div class="box">
+<div class="head"><h2>🛒 سبد خرید</h2><button class="close" onclick="closeCart()">×</button></div>
+<div id="cartItems"></div><h3 id="total"></h3><button class="btn primary" style="width:100%" onclick="checkout()">ثبت سفارش</button>
+</div></div>
+
+<div id="checkout" class="modal"><div class="box">
+<div class="head"><h2>🧾 ثبت سفارش</h2><button class="close" onclick="closeModal('checkout')">×</button></div>
+<div class="form">
+<div class="field"><label>نام سفارش‌دهنده</label><input id="name"></div>
+<div class="field"><label>شماره تلفن پیگیری</label><input id="custPhone"></div>
+<div class="field"><label>نام تحویل‌گیرنده</label><input id="receiver"></div>
+<div class="field"><label>کد پستی</label><input id="postal"></div>
+<div class="field full"><label>آدرس</label><textarea id="address"></textarea></div>
+<div class="field"><label>روش ارسال</label><select id="delivery"><option>تحویل حضوری</option><option>ارسال با پیک</option><option>ارسال پستی</option></select></div>
+<div class="field"><label>شماره کارت</label><input id="card" readonly></div>
+<div class="field full"><label>توضیحات</label><textarea id="note"></textarea></div>
+</div>
+<button class="btn" onclick="copyCard()" style="width:100%;margin:7px 0">📋 کپی شماره کارت</button>
+<button class="btn primary" onclick="submitOrder()" style="width:100%">✅ ثبت سفارش</button>
+</div></div>
+
+<div id="track" class="modal"><div class="box">
+<div class="head"><h2>🔎 پیگیری سفارش</h2><button class="close" onclick="closeModal('track')">×</button></div>
+<div class="field"><label>شماره تلفن</label><input id="trackPhone"></div>
+<button class="btn primary" style="width:100%" onclick="findOrders()">جستجو</button><div id="trackResult"></div>
+</div></div>
+
+<div id="adminLogin" class="modal"><div class="box" style="max-width:400px">
+<div class="head"><h2>🔐 مدیریت</h2><button class="close" onclick="closeModal('adminLogin')">×</button></div>
+<div class="field"><label>نام کاربری</label><input id="user"></div><div class="field"><label>رمز عبور</label><input id="pass" type="password"></div>
+<button class="btn primary" style="width:100%" onclick="doLogin()">ورود</button>
+</div></div>
+
+<div id="admin" class="admin"><div class="adminhead"><b>⚙️ پنل مدیریت اتم تحریر</b><button class="btn" onclick="closeAdmin()">خروج</button></div>
+<div class="adminmain"><div class="tabs">
+<button class="tab active" onclick="tab('orders',this)">📦 سفارش‌ها</button><button class="tab" onclick="tab('productsAdmin',this)">🛍 محصولات</button><button class="tab" onclick="tab('settings',this)">⚙️ تنظیمات</button>
+</div>
+<div id="orders" class="section active"><h2>سفارش‌های ثبت‌شده</h2><div id="ordersList"></div></div>
+<div id="productsAdmin" class="section"><h2>محصولات</h2><button class="btn primary" onclick="addProduct()">➕ افزودن</button><div id="adminProducts"></div></div>
+<div id="settings" class="section"><h2>تنظیمات</h2><div class="field"><label>شماره تلفن</label><input id="shopPhone"></div><button class="btn primary" onclick="saveSettings()">ذخیره</button><div class="field" style="margin-top:15px"><label>شماره کارت</label><input id="shopCard"></div><button class="btn primary" onclick="saveSettings()">ذخیره کارت</button></div>
+</div></div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const defaults=[
+{id:1,name:"خودکار آبی",price:15000,category:"خودکار",stock:20,image:"https://images.unsplash.com/photo-1585336261022-680e295ce8b2?auto=format&fit=crop&w=700&q=80"},
+{id:2,name:"دفتر کلاسیک",price:85000,category:"دفتر",stock:15,image:"https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=700&q=80"},
+{id:3,name:"مداد طراحی",price:25000,category:"مداد",stock:30,image:"https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=700&q=80"},
+{id:4,name:"جامدادی",price:120000,category:"جامدادی",stock:10,image:"https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=700&q=80"}];
+let products=JSON.parse(localStorage.atom_products||"null")||defaults;
+let cart=JSON.parse(localStorage.atom_cart||"null")||[];
+let orders=JSON.parse(localStorage.atom_orders||"null")||[];
+let phone=localStorage.atom_phone||"09138375663";
+let card=localStorage.atom_card||"6037 0000 0000 0000";
+let category="همه";
+
+function save(){localStorage.atom_products=JSON.stringify(products);localStorage.atom_cart=JSON.stringify(cart);localStorage.atom_orders=JSON.stringify(orders);localStorage.atom_phone=phone;localStorage.atom_card=card}
+function money(n){return Number(n).toLocaleString("fa-IR")+" تومان"}
+function toast(s){let x=document.getElementById("toast");x.textContent=s;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2200)}
+function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[x]))}
+function render(){
+ let cats=["همه",...new Set(products.map(p=>p.category))];document.getElementById("cats").innerHTML=cats.map(c=>`<button class="cat ${c==category?"active":""}" onclick="setCat('${esc(c)}')">${esc(c)}</button>`).join("");
+ let q=document.getElementById("q").value.toLowerCase();let list=products.filter(p=>(category=="همه"||p.category==category)&&(!q||p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)));
+ document.getElementById("products").innerHTML=list.length?list.map(p=>`<div class="card"><img src="${esc(p.image)}"><div class="info"><small>${esc(p.category)}</small><div class="name">${esc(p.name)}</div><div class="price">${money(p.price)}</div><div class="stock">موجودی: ${p.stock}</div><button class="btn primary" style="width:100%;margin-top:10px" ${p.stock<1?"disabled":""} onclick="add(${p.id})">${p.stock<1?"ناموجود":"🛒 افزودن به سبد"}</button></div></div>`).join(""):`<div style="grid-column:1/-1;background:#fff;padding:40px;text-align:center;border-radius:18px">محصولی پیدا نشد.</div>`;
+ if(q){let s=products.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)).slice(0,5);document.getElementById("suggest").style.display=s.length?"block":"none";document.getElementById("suggest").innerHTML=s.map(p=>`<div onclick="pick('${esc(p.name)}')">🔎 ${esc(p.name)}</div>`).join("")}else document.getElementById("suggest").style.display="none";
+}
+function setCat(c){category=c;if(c=="همه"){document.getElementById("q").value="";}render()}
+function clearSearch(){document.getElementById("q").value="";category="همه";render();toast("جستجو پاک شد")}
+function pick(n){document.getElementById("q").value=n;document.getElementById("suggest").style.display="none";render()}
+function add(id){let p=products.find(x=>x.id==id),i=cart.find(x=>x.id==id);if(!p||p.stock<1)return toast("ناموجود است");if(i){if(i.qty>=p.stock)return toast("بیشتر از موجودی نمی‌شود");i.qty++}else cart.push({id,qty:1});save();renderCart();toast("✅ به سبد اضافه شد")}
+function renderCart(){document.getElementById("count").textContent=cart.reduce((a,x)=>a+x.qty,0);let total=0;document.getElementById("cartItems").innerHTML=cart.length?cart.map(i=>{let p=products.find(x=>x.id==i.id);total+=p.price*i.qty;return `<div class="item"><img src="${esc(p.image)}"><div class="grow"><b>${esc(p.name)}</b><br>${money(p.price)}</div><div class="qty"><button onclick="qty(${p.id},1)">+</button>${i.qty}<button onclick="qty(${p.id},-1)">−</button></div><button class="btn danger" onclick="removeItem(${p.id})">🗑</button></div>`}).join(""):"<p style='text-align:center'>سبد خرید خالی است.</p>";document.getElementById("total").textContent="مجموع: "+money(total)}
+function qty(id,n){let i=cart.find(x=>x.id==id),p=products.find(x=>x.id==id);i.qty+=n;if(i.qty<=0)cart=cart.filter(x=>x.id!=id);if(i.qty>p.stock)i.qty=p.stock;save();renderCart()}
+function removeItem(id){cart=cart.filter(x=>x.id!=id);save();renderCart();toast("محصول حذف شد")}
+function openCart(){renderCart();document.getElementById("cart").style.display="flex"}function closeCart(){document.getElementById("cart").style.display="none"}
+function checkout(){if(!cart.length)return toast("سبد خرید خالی است");document.getElementById("card").value=card;closeCart();document.getElementById("checkout").style.display="flex"}
+function closeModal(id){document.getElementById(id).style.display="none"}
+function copyCard(){navigator.clipboard?.writeText(card);toast("شماره کارت کپی شد")}
+function submitOrder(){let name=document.getElementById("name").value.trim(),custPhone=document.getElementById("custPhone").value.trim(),receiver=document.getElementById("receiver").value.trim(),address=document.getElementById("address").value.trim();if(!name||!custPhone||!receiver||!address)return toast("همه اطلاعات ضروری را وارد کنید");let total=0,items=[];for(let i of cart){let p=products.find(x=>x.id==i.id);if(!p||p.stock<i.qty)return toast("موجودی کافی نیست");p.stock-=i.qty;total+=p.price*i.qty;items.push({name:p.name,qty:i.qty,price:p.price})}orders.unshift({id:Date.now(),name,custPhone,receiver,address,postal:document.getElementById("postal").value,delivery:document.getElementById("delivery").value,note:document.getElementById("note").value,items,total,status:"در انتظار بررسی",date:new Date().toLocaleString("fa-IR")});cart=[];save();render();renderCart();closeModal("checkout");toast("🎉 سفارش ثبت شد")}
+function tracking(){document.getElementById("track").style.display="flex"}
+function findOrders(){let p=document.getElementById("trackPhone").value.replace(/\D/g,""),a=orders.filter(o=>o.custPhone.replace(/\D/g,"")==p);document.getElementById("trackResult").innerHTML=a.length?a.map(o=>`<div class="order"><b>سفارش #${String(o.id).slice(-6)}</b><p>${o.date}</p><p>مبلغ: ${money(o.total)}</p><p>وضعیت: <b>${esc(o.status)}</b></p></div>`).join(""):"<p>سفارشی پیدا نشد.</p>"}
+function login(){document.getElementById("adminLogin").style.display="flex"}function doLogin(){if(document.getElementById("user").value=="1234"&&document.getElementById("pass").value=="1234567890"){closeModal("adminLogin");document.getElementById("admin").style.display="block";renderAdmin()}else toast("ورود ناموفق")}
+function closeAdmin(){document.getElementById("admin").style.display="none"}
+function tab(id,b){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active")}
+function renderAdmin(){document.getElementById("ordersList").innerHTML=orders.length?orders.map(o=>`<div class="order"><b>سفارش #${String(o.id).slice(-6)}</b><p>👤 ${esc(o.name)} | 📞 ${esc(o.custPhone)}</p><p>📍 ${esc(o.address)}</p><p>💰 ${money(o.total)}</p><select onchange="status(${o.id},this.value)">${["در انتظار بررسی","تأیید شده","در حال آماده‌سازی","ارسال شده","تحویل داده شد","لغو شده"].map(s=>`<option ${o.status==s?"selected":""}>${s}</option>`).join("")}</select> <button class="btn danger" onclick="delOrder(${o.id})">حذف</button></div>`).join(""):"<p>هنوز سفارشی ثبت نشده است.";document.getElementById("adminProducts").innerHTML=products.map(p=>`<div class="adminproduct"><img src="${esc(p.image)}"><div class="grow"><b>${esc(p.name)}</b><br>${money(p.price)} | موجودی ${p.stock}</div><button class="btn warning" onclick="editProduct(${p.id})">ویرایش</button><button class="btn danger" onclick="delProduct(${p.id})">حذف</button></div>`).join("");document.getElementById("shopPhone").value=phone;document.getElementById("shopCard").value=card}
+function status(id,s){let o=orders.find(x=>x.id==id);if(o)o.status=s;save();toast("وضعیت تغییر کرد")}
+function delOrder(id){orders=orders.filter(x=>x.id!=id);save();renderAdmin();toast("سفارش حذف شد")}
+function addProduct(){let n=prompt("نام محصول"),p=+prompt("قیمت"),c=prompt("دسته‌بندی")||"سایر",s=+prompt("موجودی"),i=prompt("آدرس عکس")||"https://via.placeholder.com/600x400?text=Product";if(!n||!p)return;products.push({id:Date.now(),name:n,price:p,category:c,stock:s,image:i});save();render();renderAdmin();toast("محصول اضافه شد")}
+function editProduct(id){let p=products.find(x=>x.id==id);if(!p)return;p.name=prompt("نام",p.name)||p.name;p.price=+prompt("قیمت",p.price);p.category=prompt("دسته‌بندی",p.category)||p.category;p.stock=+prompt("موجودی",p.stock);p.image=prompt("عکس",p.image)||p.image;save();render();renderAdmin();toast("محصول ویرایش شد")}
+function delProduct(id){products=products.filter(x=>x.id!=id);cart=cart.filter(x=>x.id!=id);save();render();renderAdmin();renderCart();toast("محصول حذف شد")}
+function saveSettings(){phone=document.getElementById("shopPhone").value.trim()||phone;card=document.getElementById("shopCard").value.trim()||card;save();document.getElementById("phoneHero").textContent=phone;document.getElementById("phoneFooter").textContent=phone;toast("تنظیمات ذخیره شد")}
+document.getElementById("phoneHero").textContent=phone;document.getElementById("phoneFooter").textContent=phone;render();renderCart();
+</script>
+</body>
+</html>
